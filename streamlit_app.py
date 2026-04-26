@@ -16,7 +16,7 @@ for msg in st.session_state.messages:
 
 if prompt := st.chat_input("Say something and/or attach an image",
     accept_file=True,
-    file_type=["jpg", "jpeg", "png", "txt"],):
+    file_type=["txt"],):
     if not api_key:
         st.info("Invalid API key.")
         st.stop()

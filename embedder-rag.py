@@ -25,13 +25,13 @@ def create_index(documents):
     embeddings_matrix = [embeddings.embed_query(text) for text in texts]
     embeddings_matrix = np.array(embeddings_matrix).astype("float32")
 
-    index = faiss. ...# ustawienie indeksu przeszukwania
+    index = faiss.IndexFlatL2() # ustawienie indeksu przeszukwania
     index.add(embeddings_matrix)
 
     return FAISSIndex(index, metadata)
 
 def retrieve_docs(query, faiss_index:FAISSIndex, k=3):
     embeddings = HuggingFaceEmbeddings(model_name=embed_model_id)
-    query_embedding = [embeddings.embed_query(text) for text in query]
+    query_embedding = np.array([embeddings.embed_query(query)]).astype("float32")
     results = faiss_index.similarity_search(query_embedding, k) # zwrócenie wyników przeuszkiwania
     return results
