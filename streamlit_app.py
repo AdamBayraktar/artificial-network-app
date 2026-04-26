@@ -24,12 +24,17 @@ if prompt := st.chat_input("Say something and/or attach an image",
         api_key=api_key,
         base_url=base_url
     )
+    if prompt.text:
+        st.markdown(prompt.text)
+    if prompt and prompt["files"]:
+        st.image(prompt["files"][0])
     if(prompt.text):      
         st.session_state.messages.append({"role": "user", "content": prompt.text})
         st.chat_message("user").write(prompt.text)
         response = client.chat.completions.create(
             model=selected_model,
-            messages=st.session_state.messages
+            messages=st.session_state.messages,
+            
         )
         msg = response.choices[0].message.content
         st.session_state.messages.append({"role": "assistant", "content": msg})
