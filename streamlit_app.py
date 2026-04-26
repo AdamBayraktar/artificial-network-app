@@ -1,8 +1,6 @@
 import streamlit as st
 from openai import OpenAI
 import os
-import pandas as pd
-from io import StringIO
 
 st.set_page_config(layout="wide", page_title="Gemini chatbot app")
 st.title("Gemini chatbot app")
