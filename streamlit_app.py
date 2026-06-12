@@ -59,7 +59,7 @@ if prompt := st.chat_input("Say something and/or attach an image",
         # 2. Tworzymy folder na dysku, jeśli jeszcze nie istnieje
         os.makedirs(folder_name, exist_ok=True)
         # 3. Tworzymy pełną ścieżkę (np. "pobrane_pdf/metaheurystyki lab.pdf")
-        file_path = os.path.join("pobrane_pdf", uploaded_file.name)
+        file_path = os.path.join(folder_name, uploaded_file.name)
         with open(file_path, "wb") as f:
             f.write(uploaded_file.read())
         st.balloons()
