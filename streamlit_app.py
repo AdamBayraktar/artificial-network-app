@@ -53,9 +53,6 @@ if prompt := st.chat_input("Say something and/or attach an image",
         api_key=api_key,
         base_url=base_url
     )
-    # dublikat
-    if prompt.text:
-        st.markdown(prompt.text)
     if prompt and prompt["files"]:
         # 1. Wyciągamy obiekt pliku (ten, który mi pokazałeś)
         uploaded_file = prompt["files"][0]
@@ -63,6 +60,8 @@ if prompt := st.chat_input("Say something and/or attach an image",
         os.makedirs(folder_name, exist_ok=True)
         # 3. Tworzymy pełną ścieżkę (np. "pobrane_pdf/metaheurystyki lab.pdf")
         file_path = os.path.join("pobrane_pdf", uploaded_file.name)
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.read())
         st.balloons()
     if(prompt.text):      
         st.session_state.messages.append({"role": "user", "content": prompt.text})
