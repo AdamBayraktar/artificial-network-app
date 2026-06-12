@@ -62,6 +62,7 @@ if prompt := st.chat_input("Say something and/or attach an image",
         file_path = os.path.join(folder_name, uploaded_file.name)
         with open(file_path, "wb") as f:
             f.write(uploaded_file.read())
+        st.rerun()
         st.balloons()
     if(prompt.text):      
         st.session_state.messages.append({"role": "user", "content": prompt.text})
