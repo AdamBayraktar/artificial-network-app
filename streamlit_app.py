@@ -8,6 +8,35 @@ st.title("Gemini chatbot app")
 api_key, base_url = st.secrets["API_KEY"], st.secrets["BASE_URL"]
 selected_model = "gemini-2.5-flash"
 
+folder_name = "zapisane_pliki"
+
+st.sidebar.title("📁 Zarządzanie plikami na serwerze")
+
+if os.path.exists(folder_name):
+    pliki = os.listdir(folder_name)
+    
+    if not pliki:
+        st.sidebar.info("Folder jest pusty.")
+    else:
+        for plik in pliki:
+            sciezka_pliku = os.path.join(folder_name, plik)
+            
+            # Tworzymy ładny wiersz dla każdego pliku
+            col1, col2 = st.sidebar.columns([3, 1])
+            col1.write(f"📄 {plik}")
+            
+            # Przycisk do pobrania pliku z serwera na Twój komputer
+            with open(sciezka_pliku, "rb") as f:
+                col2.download_button(
+                    label="Pobierz",
+                    data=f,
+                    file_name=plik,
+                    mime="application/pdf",
+                    key=plik # unikalny klucz dla Streamlita
+                )
+else:
+    st.sidebar.info("Brak folderu z zapisanymi plikami.")
+
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?."}]
 
