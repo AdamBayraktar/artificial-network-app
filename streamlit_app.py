@@ -28,7 +28,7 @@ if prompt := st.chat_input("Say something and/or attach an image",
     if prompt.text:
         st.markdown(prompt.text)
     if prompt and prompt["files"]:
-        st.image(prompt["files"][0])
+        st.chat_message("user").write(prompt["files"][0])
         st.balloons()
     if(prompt.text):      
         st.session_state.messages.append({"role": "user", "content": prompt.text})
