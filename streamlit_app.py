@@ -16,7 +16,7 @@ for msg in st.session_state.messages:
 
 if prompt := st.chat_input("Say something and/or attach an image",
     accept_file=True,
-    file_type=["txt"],):
+    file_type=[".pdf"],):
     if not api_key:
         st.info("Invalid API key.")
         st.stop()
@@ -29,6 +29,7 @@ if prompt := st.chat_input("Say something and/or attach an image",
         st.markdown(prompt.text)
     if prompt and prompt["files"]:
         st.image(prompt["files"][0])
+        st.balloons()
     if(prompt.text):      
         st.session_state.messages.append({"role": "user", "content": prompt.text})
         st.chat_message("user").write(prompt.text)
