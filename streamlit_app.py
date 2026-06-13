@@ -68,10 +68,10 @@ if prompt := st.chat_input("Say something and/or attach an image",
         st.session_state.messages.append({"role": "user", "content": prompt.text})
         st.chat_message("user").write(prompt.text)
         with st.spinner("Wait for it...", show_time=True):
+            retrieve_docs(prompt.text, create_index(load_documents_from_folder(folder_name)))
             response = client.chat.completions.create(
                 model=selected_model,
                 messages=st.session_state.messages,
-                
             )
         msg = response.choices[0].message.content
         st.session_state.messages.append({"role": "assistant", "content": msg})
