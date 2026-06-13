@@ -68,7 +68,16 @@ if prompt := st.chat_input("Say something and/or attach an image",
         st.session_state.messages.append({"role": "user", "content": prompt.text})
         st.chat_message("user").write(prompt.text)
         with st.spinner("Wait for it...", show_time=True):
-            retrieve_docs(prompt.text, create_index(load_documents_from_folder(folder_name)))
+            context = retrieve_docs(prompt.text, create_index(load_documents_from_folder(folder_name)))
+            system_prompt = f"""Jesteś pomocnym asystentem. Odpowiedz na pytanie użytkownika, korzystając z poniższego kontekstu. 
+                            Jeśli w kontekście nie ma odpowiedzi, powiedz szczerze: "Nie wiem, nie mam takich informacji w moich dokumentach".
+                            Pytanie: {prompt.text}
+                            KONTEKST:
+                            {context}"""
+            messages_to_send = [system_prompt]                            
+            for msg in st.session_state.messages:
+            if msg["role"] != "system":
+                messages_to_send.append(msg)
             response = client.chat.completions.create(
                 model=selected_model,
                 messages=st.session_state.messages,
