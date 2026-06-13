@@ -76,12 +76,12 @@ if prompt := st.chat_input("Say something and/or attach an image",
                             {context}"""
             messages_to_send = [system_prompt]                            
             for msg in st.session_state.messages:
-            if msg["role"] != "system":
-                messages_to_send.append(msg)
-            response = client.chat.completions.create(
-                model=selected_model,
-                messages=st.session_state.messages,
-            )
+                if msg["role"] != "system":
+                    messages_to_send.append(msg)
+                response = client.chat.completions.create(
+                    model=selected_model,
+                    messages=st.session_state.messages,
+                )
         msg = response.choices[0].message.content
         st.session_state.messages.append({"role": "assistant", "content": msg})
         st.chat_message("assistant").write(msg)
